@@ -3,7 +3,12 @@
 #include "Shape.h"
 #include "Rectangle.h"
 
-void Rectangle1::Draw(CDC *pDC)
+namespace Keks
 {
-	pDC->Rectangle(m_Rect);
-};
+
+	void Rectangle::Draw(CDC *pDC)
+	{
+		pDC->Rectangle(m_Rect);
+	};
+
+}

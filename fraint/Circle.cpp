@@ -3,7 +3,12 @@
 #include "Shape.h"
 #include "Circle.h"
 
-void Circle1::Draw(CDC *pDC)
+namespace Keks
 {
-	pDC->Ellipse(m_Rect);
-};
+
+	void Circle::Draw(CDC *pDC)
+	{
+		pDC->Ellipse(m_Rect);
+	};
+
+}

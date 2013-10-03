@@ -84,11 +84,11 @@ void CChildView::OnLButtonDown(UINT nFlags, CPoint point)
 	//m_CurrentShape = new Rectangle1(m_StartPoint);
 	if (CfraintApp::CURRENT_SHAPE_TYPE == SHAPETYPE_CIRCLE)
 	{
-		m_CurrentShape = new Circle1(m_StartPoint);
+		m_CurrentShape = new Keks::Circle(m_StartPoint);
 	}
 	else if (CfraintApp::CURRENT_SHAPE_TYPE == SHAPETYPE_RECTANGLE)
 	{
-		m_CurrentShape = new Rectangle1(m_StartPoint);
+		m_CurrentShape = new Keks::Rectangle(m_StartPoint);
 	}
 
 	CWnd::OnLButtonDown(nFlags, point);
