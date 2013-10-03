@@ -1,7 +1,7 @@
 #pragma once
 
 
-namespace Keks
+namespace Fraint
 {
 
 	class Circle : public Shape

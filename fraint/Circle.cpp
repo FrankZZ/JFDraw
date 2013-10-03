@@ -3,7 +3,7 @@
 #include "Shape.h"
 #include "Circle.h"
 
-namespace Keks
+namespace Fraint
 {
 
 	void Circle::Draw(CDC *pDC)

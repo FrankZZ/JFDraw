@@ -1,20 +1,22 @@
 #include "stdafx.h"
 #include "fraint.h"
 #include "Shape.h"
-
-Shape::Shape(CPoint StartPoint, CPoint EndPoint)
+namespace Fraint
 {
-	m_StartPoint = StartPoint;
-	m_Rect = *new CRect(StartPoint.x, StartPoint.y, EndPoint.x, EndPoint.y);
-};
+	Shape::Shape(CPoint StartPoint, CPoint EndPoint)
+	{
+		m_StartPoint = StartPoint;
+		m_Rect = *new CRect(StartPoint.x, StartPoint.y, EndPoint.x, EndPoint.y);
+	};
 
-Shape::Shape(CPoint StartPoint)
-{
-	m_StartPoint = StartPoint;
-	m_Rect = *new CRect(0, 0, 0, 0);
-};
+	Shape::Shape(CPoint StartPoint)
+	{
+		m_StartPoint = StartPoint;
+		m_Rect = *new CRect(0, 0, 0, 0);
+	};
 
-void Shape::SetEndPoint(CPoint EndPoint)
-{
-	m_Rect.SetRect(m_StartPoint.x, m_StartPoint.y, EndPoint.x, EndPoint.y);
-};
+	void Shape::SetEndPoint(CPoint EndPoint)
+	{
+		m_Rect.SetRect(m_StartPoint.x, m_StartPoint.y, EndPoint.x, EndPoint.y);
+	};
+}

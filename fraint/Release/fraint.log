@@ -1,9 +1,31 @@
-﻿Build started 10/3/2013 12:48:02 AM.
-     1>Project "c:\dev\cpp\fraint\fraint\fraint.vcxproj" on node 2 (Clean target(s)).
-     1>_PrepareForClean:
-         Deleting file "Release\fraint.lastbuildstate".
-     1>Done Building Project "c:\dev\cpp\fraint\fraint\fraint.vcxproj" (Clean target(s)).
+﻿Build started 10/3/2013 10:58:42 PM.
+     1>Project "C:\Users\Frank\Documents\fraint\fraint\fraint.vcxproj" on node 2 (Build target(s)).
+     1>InitializeBuildStatus:
+         Touching "Release\fraint.unsuccessfulbuild".
+       ClCompile:
+         All outputs are up-to-date.
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /sdl /O2 /Oi /Oy- /GL /D WIN32 /D _WINDOWS /D NDEBUG /D _UNICODE /D UNICODE /D _AFXDLL /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Release\fraint.pch" /Fo"Release\\" /Fd"Release\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt ChildView.cpp
+         ChildView.cpp
+     1>ChildView.cpp(23): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+       ResourceCompile:
+         C:\Program Files (x86)\Windows Kits\8.0\bin\x86\rc.exe /D NDEBUG /D _UNICODE /D UNICODE /D _AFXDLL /l"0x0409" /IRelease\ /nologo /fo"Release\fraint.res" fraint.rc 
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Frank\Documents\fraint\Release\fraint.exe" /INCREMENTAL:NO /NOLOGO /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /manifestinput:"C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\Include\Manifest\dpiaware.manifest" /DEBUG /PDB:"C:\Users\Frank\Documents\fraint\Release\fraint.pdb" /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /LTCG /TLBID:1 /ENTRY:"wWinMainCRTStartup" /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Frank\Documents\fraint\Release\fraint.lib" /MACHINE:X86 /SAFESEH Release\fraint.res
+         Release\ChildView.obj
+         Release\Circle.obj
+         Release\fraint.obj
+         Release\MainFrm.obj
+         Release\Rectangle.obj
+         Release\Shape.obj
+         Release\stdafx.obj
+         Generating code
+         Finished generating code
+         fraint.vcxproj -> C:\Users\Frank\Documents\fraint\Release\fraint.exe
+       FinalizeBuildStatus:
+         Deleting file "Release\fraint.unsuccessfulbuild".
+         Touching "Release\fraint.lastbuildstate".
+     1>Done Building Project "C:\Users\Frank\Documents\fraint\fraint\fraint.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:00.03
+Time Elapsed 00:00:03.07

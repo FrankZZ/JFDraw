@@ -19,9 +19,9 @@ private:
 	CPoint m_StartPoint;
 	CPoint m_LastPoint;
 	
-	Shape* m_CurrentShape;
+	Fraint::Shape* m_CurrentShape;
 	
-	std::vector<Shape*> m_Shapes;
+	std::vector<Fraint::Shape*> m_Shapes;
 	
 	int m_CurrentShapeType;
 

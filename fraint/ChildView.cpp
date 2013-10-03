@@ -33,7 +33,7 @@ CChildView::CChildView()
 	m_LastPoint = *new CPoint(-1, -1);
 	m_StartPoint = *new CPoint(-1, -1);
 
-	m_Shapes = *new std::vector<Shape*>();
+	m_Shapes = *new std::vector<Fraint::Shape*>();
 }
 
 CChildView::~CChildView()
@@ -84,11 +84,11 @@ void CChildView::OnLButtonDown(UINT nFlags, CPoint point)
 	//m_CurrentShape = new Rectangle1(m_StartPoint);
 	if (CfraintApp::CURRENT_SHAPE_TYPE == SHAPETYPE_CIRCLE)
 	{
-		m_CurrentShape = new Keks::Circle(m_StartPoint);
+		m_CurrentShape = new Fraint::Circle(m_StartPoint);
 	}
 	else if (CfraintApp::CURRENT_SHAPE_TYPE == SHAPETYPE_RECTANGLE)
 	{
-		m_CurrentShape = new Keks::Rectangle(m_StartPoint);
+		m_CurrentShape = new Fraint::Rectangle(m_StartPoint);
 	}
 
 	CWnd::OnLButtonDown(nFlags, point);

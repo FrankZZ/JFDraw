@@ -3,7 +3,7 @@
 #include "Shape.h"
 #include "Rectangle.h"
 
-namespace Keks
+namespace Fraint
 {
 
 	void Rectangle::Draw(CDC *pDC)

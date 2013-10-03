@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Keks
+namespace Fraint
 {
 
 	class Rectangle : public Shape
