@@ -9,7 +9,7 @@
 #include "Rectangle.h"
 #include "Circle.h"
 #include <vector>
-
+#include <iostream>
 #include "ChildView.h"
 
 #ifdef _DEBUG
@@ -156,6 +156,29 @@ void CChildView::OnEditUndo()
 	{
 		CWnd::InvalidateRect(m_Shapes.back()->GetRect());
 		m_Shapes.pop_back();
+		
+		RedrawShapes();
 	}
+
+}
+
+
+
+// Wachten tot de Window geupdate is (invalidated rectangles erased) en dan de huidige shapes redrawen
+void CChildView::RedrawShapes()
+{
+	CWnd::UpdateWindow();
+	
+	for (auto i : m_Shapes)
+	{
+		i->Draw(GetDC());
+	}
+}
+
+void CChildView::OnSize(UINT nType, int cx, int cy)
+{
+	MessageBox(L"A", L"A", 0);
+	RedrawShapes();
+	
 
 }

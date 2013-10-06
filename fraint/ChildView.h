@@ -31,10 +31,15 @@ public:
 // Overrides
 	protected:
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
+	virtual void OnSize(UINT nType, int cx, int cy);
 
 // Implementation
 public:
 	virtual ~CChildView();
+	
+
+private:
+	void RedrawShapes();
 
 	// Generated message map functions
 protected:

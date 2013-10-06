@@ -117,18 +117,14 @@ BEGIN
         MENUITEM "&Toolbar",                    ID_VIEW_TOOLBAR
         MENUITEM "&Status Bar",                 ID_VIEW_STATUS_BAR
     END
-    POPUP "&Help"
-    BEGIN
-        MENUITEM "&About fraint...",            ID_APP_ABOUT
-    END
     POPUP "Shape"
     BEGIN
         MENUITEM "Rectangle",                   ID_SHAPE_RECTANGLE
         MENUITEM "Circle",                      ID_SHAPE_CIRCLE
     END
-    POPUP "Help"
+    POPUP "&Help"
     BEGIN
-        MENUITEM "About",                       ID_ABOUT_AA
+        MENUITEM "&About fraint...",            ID_APP_ABOUT
     END
 END
 
