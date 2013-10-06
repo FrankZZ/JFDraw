@@ -4,6 +4,7 @@
 #pragma once
 #include "Shape.h"
 #include <vector>
+
 // CChildView window
 
 class CChildView : public CWnd
@@ -20,10 +21,12 @@ private:
 	CPoint m_LastPoint;
 	
 	Fraint::Shape* m_CurrentShape;
-	
+
 	std::vector<Fraint::Shape*> m_Shapes;
 	
 	int m_CurrentShapeType;
+
+	CPen m_TemporaryPen;
 
 // Operations
 public:
@@ -31,7 +34,6 @@ public:
 // Overrides
 	protected:
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
-	virtual void OnSize(UINT nType, int cx, int cy);
 
 // Implementation
 public:
@@ -50,5 +52,9 @@ public:
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
 	afx_msg void OnEditUndo();
+	afx_msg void OnSize(UINT nType, int cx, int cy);
+	afx_msg void OnShapeRectangle();
+	afx_msg void OnShapeCircle();
+	afx_msg void OnShapeSelectortool();
 };
 

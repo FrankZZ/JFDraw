@@ -13,25 +13,13 @@
 #define new DEBUG_NEW
 #endif
 
-#ifndef SHAPETYPE_RECTANGLE
-#define SHAPETYPE_RECTANGLE 0
-#endif
-
-#ifndef SHAPETYPE CIRCLE
-#define SHAPETYPE_CIRCLE 1
-#endif
-
 // CfraintApp
 
 BEGIN_MESSAGE_MAP(CfraintApp, CWinAppEx)
 	ON_COMMAND(ID_APP_ABOUT, &CfraintApp::OnAppAbout)
-	ON_COMMAND(ID_SHAPE_RECTANGLE, &CfraintApp::OnShapeRectangle)
-	ON_COMMAND(ID_SHAPE_CIRCLE, &CfraintApp::OnShapeCircle)
 	ON_COMMAND(ID_ABOUT_AA, &CfraintApp::OnHelpAbout)
 END_MESSAGE_MAP()
 
-
-int CfraintApp::CURRENT_SHAPE_TYPE = SHAPETYPE_RECTANGLE;
 
 // CfraintApp construction
 
@@ -170,25 +158,6 @@ void CfraintApp::OnAppAbout()
 }
 
 // CfraintApp message handlers
-
-
-
-
-
-void CfraintApp::OnShapeRectangle()
-{
-	CfraintApp::CURRENT_SHAPE_TYPE = SHAPETYPE_RECTANGLE;
-	//MessageBox(0, L"Rectangle", L"Draw", 0);
-}
-
-
-void CfraintApp::OnShapeCircle()
-{
-	CfraintApp::CURRENT_SHAPE_TYPE = SHAPETYPE_CIRCLE;
-	//MessageBox(0, L"Circle", L"Draw", 0);
-}
-
-
 void CfraintApp::OnHelpAbout()
 {
 	CAboutDlg aboutDlg;

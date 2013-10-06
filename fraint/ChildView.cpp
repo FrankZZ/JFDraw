@@ -8,32 +8,44 @@
 #include "Shape.h"
 #include "Rectangle.h"
 #include "Circle.h"
-#include <vector>
 #include <iostream>
 #include "ChildView.h"
 
 #ifdef _DEBUG
+
 #define new DEBUG_NEW
+
 #endif
 
 #ifndef SHAPETYPE_RECTANGLE
+
 #define SHAPETYPE_RECTANGLE 0
+
 #endif
+
 
 #ifndef SHAPETYPE CIRCLE
+
 #define SHAPETYPE_CIRCLE 1
+
 #endif
 
+#ifndef SHAPETYPE SELECTOR
+
+#define SHAPETYPE_SELECTOR 2
+
+#endif
 
 
 // CChildView
 
 CChildView::CChildView()
+: m_LastPoint(-1, -1),
+m_StartPoint(-1, -1),
+m_TemporaryPen(PS_DOT, 1, RGB(0, 0, 0)),
+m_Shapes(),
+m_CurrentShapeType(SHAPETYPE_CIRCLE)
 {
-	m_LastPoint = *new CPoint(-1, -1);
-	m_StartPoint = *new CPoint(-1, -1);
-
-	m_Shapes = *new std::vector<Fraint::Shape*>();
 }
 
 CChildView::~CChildView()
@@ -47,6 +59,10 @@ BEGIN_MESSAGE_MAP(CChildView, CWnd)
 	ON_WM_LBUTTONDOWN()
 	ON_WM_LBUTTONUP()
 	ON_COMMAND(ID_EDIT_UNDO, &CChildView::OnEditUndo)
+	ON_WM_SIZE()
+	ON_COMMAND(ID_SHAPE_RECTANGLE, &CChildView::OnShapeRectangle)
+	ON_COMMAND(ID_SHAPE_CIRCLE, &CChildView::OnShapeCircle)
+	ON_COMMAND(ID_SHAPE_SELECTORTOOL, &CChildView::OnShapeSelectortool)
 END_MESSAGE_MAP()
 
 
@@ -82,11 +98,11 @@ void CChildView::OnLButtonDown(UINT nFlags, CPoint point)
 	m_StartPoint = point;
 	
 	//m_CurrentShape = new Rectangle1(m_StartPoint);
-	if (CfraintApp::CURRENT_SHAPE_TYPE == SHAPETYPE_CIRCLE)
+	if (m_CurrentShapeType == SHAPETYPE_CIRCLE)
 	{
 		m_CurrentShape = new Fraint::Circle(m_StartPoint);
 	}
-	else if (CfraintApp::CURRENT_SHAPE_TYPE == SHAPETYPE_RECTANGLE)
+	else if (m_CurrentShapeType== SHAPETYPE_RECTANGLE)
 	{
 		m_CurrentShape = new Fraint::Rectangle(m_StartPoint);
 	}
@@ -96,32 +112,31 @@ void CChildView::OnLButtonDown(UINT nFlags, CPoint point)
 
 void CChildView::OnMouseMove(UINT nFlags, CPoint point)
 {
-	// TODO: Add your message handler code here and/or call default
-	
 	if (m_StartPoint.x != -1)
 	{
-		CDC* pDC = GetDC();
-
-		//pDC->SelectStockObject(BLACK_PEN);
-		pDC->SelectObject(*new CPen (PS_DOT, 1, RGB (0, 0, 0)));
-
-		pDC->SetROP2(R2_NOTXORPEN);
-		
-		if (m_LastPoint.x != -1)
+		if (m_CurrentShapeType != SHAPETYPE_SELECTOR)
 		{
-			m_CurrentShape->SetEndPoint(m_LastPoint);
-			m_CurrentShape->Draw(pDC);
-		}
+			CDC* pDC = GetDC();
 
-			//pDC->Rectangle(m_StartPoint.x, m_StartPoint.y, m_LastPoint.x, m_LastPoint.y);
+			CPen* pOldPen = pDC->SelectObject(&m_TemporaryPen);
+
+			pDC->SetROP2(R2_NOTXORPEN);
 		
-		m_CurrentShape->SetEndPoint(point);
-		m_CurrentShape->Draw(pDC);
-		//pDC->Rectangle(m_StartPoint.x, m_StartPoint.y, point.x, point.y);
+			if (m_LastPoint.x != -1)
+			{
+				m_CurrentShape->SetEndPoint(m_LastPoint);
+				m_CurrentShape->Draw(pDC);
+			}
+
+			m_CurrentShape->SetEndPoint(point);
+			m_CurrentShape->Draw(pDC);
+
 		
-		ReleaseDC(pDC);
+			pDC->SelectObject(pOldPen);
+			ReleaseDC(pDC);
 		
-		m_LastPoint = point;
+			m_LastPoint = point;
+		}
 	}
 
 	CWnd::OnMouseMove(nFlags, point);
@@ -130,21 +145,39 @@ void CChildView::OnMouseMove(UINT nFlags, CPoint point)
 
 void CChildView::OnLButtonUp(UINT nFlags, CPoint point)
 {
-	CDC* pDC = GetDC();
-
-	if (m_LastPoint.x != -1)
+	if (m_CurrentShapeType == SHAPETYPE_SELECTOR)
 	{
-		m_CurrentShape->SetEndPoint(m_LastPoint);
-		m_CurrentShape->Draw(pDC);
+		std::vector<Fraint::Shape*>::iterator start = m_Shapes.begin();
+        std::vector<Fraint::Shape*>::iterator i = m_Shapes.end() - 1;
+
+		for (; i >= start; i--)
+		{
+			m_CurrentShape = *i;
+
+			if (m_CurrentShape->IsOn(point))
+			{
+				m_CurrentShape = *i;
+				break;
+			}
+		}
 	}
+	else
+	{
+		CDC* pDC = GetDC();
 
-	
-	ReleaseDC(pDC);
+		if (m_LastPoint.x != -1)
+		{
+			m_CurrentShape->SetEndPoint(m_LastPoint);
+			m_CurrentShape->Draw(pDC);
+		}
 
-	m_Shapes.push_back(m_CurrentShape);
+		ReleaseDC(pDC);
 
-	m_StartPoint.x = -1;
-	m_LastPoint.x = -1;
+		m_Shapes.push_back(m_CurrentShape);
+
+		m_StartPoint.x = -1;
+		m_LastPoint.x = -1;
+	}
 
 	CWnd::OnLButtonUp(nFlags, point);
 }
@@ -155,14 +188,13 @@ void CChildView::OnEditUndo()
 	if (m_Shapes.empty() == false)
 	{
 		CWnd::InvalidateRect(m_Shapes.back()->GetRect());
+
 		m_Shapes.pop_back();
 		
 		RedrawShapes();
 	}
 
 }
-
-
 
 // Wachten tot de Window geupdate is (invalidated rectangles erased) en dan de huidige shapes redrawen
 void CChildView::RedrawShapes()
@@ -177,8 +209,24 @@ void CChildView::RedrawShapes()
 
 void CChildView::OnSize(UINT nType, int cx, int cy)
 {
-	MessageBox(L"A", L"A", 0);
 	RedrawShapes();
-	
 
+	CWnd::OnSize(nType, cx, cy);
+}
+
+
+void CChildView::OnShapeRectangle()
+{
+	m_CurrentShapeType = SHAPETYPE_RECTANGLE;
+}
+
+void CChildView::OnShapeCircle()
+{
+	m_CurrentShapeType = SHAPETYPE_CIRCLE;
+}
+
+
+void CChildView::OnShapeSelectortool()
+{
+	m_CurrentShapeType = SHAPETYPE_SELECTOR;
 }

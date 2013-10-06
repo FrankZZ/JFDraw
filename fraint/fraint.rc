@@ -121,6 +121,7 @@ BEGIN
     BEGIN
         MENUITEM "Rectangle",                   ID_SHAPE_RECTANGLE
         MENUITEM "Circle",                      ID_SHAPE_CIRCLE
+        MENUITEM "Selector Tool",               ID_SHAPE_SELECTORTOOL
     END
     POPUP "&Help"
     BEGIN

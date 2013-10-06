@@ -23,5 +23,6 @@ namespace Fraint
 			virtual void Draw(CDC *pDC) {};
 			void SetEndPoint(CPoint EndPoint);
 			CRect GetRect() { return m_Rect; };
+			bool IsOn(CPoint point);
 	};
 };

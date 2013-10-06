@@ -19,4 +19,9 @@ namespace Fraint
 	{
 		m_Rect.SetRect(m_StartPoint.x, m_StartPoint.y, EndPoint.x, EndPoint.y);
 	};
+
+	bool Shape::IsOn(CPoint point)
+	{
+		return m_Rect.PtInRect(point);
+	}
 }
