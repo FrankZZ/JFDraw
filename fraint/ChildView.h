@@ -56,5 +56,6 @@ public:
 	afx_msg void OnShapeRectangle();
 	afx_msg void OnShapeCircle();
 	afx_msg void OnShapeSelectortool();
+	afx_msg void OnEditDelete();
 };
 

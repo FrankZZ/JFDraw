@@ -9,6 +9,7 @@
 #include "Rectangle.h"
 #include "Circle.h"
 #include <iostream>
+#include <algorithm>
 #include "ChildView.h"
 
 #ifdef _DEBUG
@@ -40,11 +41,11 @@
 // CChildView
 
 CChildView::CChildView()
-: m_LastPoint(-1, -1),
-m_StartPoint(-1, -1),
-m_TemporaryPen(PS_DOT, 1, RGB(0, 0, 0)),
-m_Shapes(),
-m_CurrentShapeType(SHAPETYPE_CIRCLE)
+	: m_LastPoint(-1, -1),
+	m_StartPoint(-1, -1),
+	m_TemporaryPen(PS_DOT, 1, RGB(0, 0, 0)),
+	m_Shapes(),
+	m_CurrentShapeType(SHAPETYPE_CIRCLE)
 {
 }
 
@@ -63,6 +64,7 @@ BEGIN_MESSAGE_MAP(CChildView, CWnd)
 	ON_COMMAND(ID_SHAPE_RECTANGLE, &CChildView::OnShapeRectangle)
 	ON_COMMAND(ID_SHAPE_CIRCLE, &CChildView::OnShapeCircle)
 	ON_COMMAND(ID_SHAPE_SELECTORTOOL, &CChildView::OnShapeSelectortool)
+	ON_COMMAND(ID_EDIT_DELETE, &CChildView::OnEditDelete)
 END_MESSAGE_MAP()
 
 
@@ -131,7 +133,6 @@ void CChildView::OnMouseMove(UINT nFlags, CPoint point)
 			m_CurrentShape->SetEndPoint(point);
 			m_CurrentShape->Draw(pDC);
 
-		
 			pDC->SelectObject(pOldPen);
 			ReleaseDC(pDC);
 		
@@ -147,14 +148,9 @@ void CChildView::OnLButtonUp(UINT nFlags, CPoint point)
 {
 	if (m_CurrentShapeType == SHAPETYPE_SELECTOR)
 	{
-		std::vector<Fraint::Shape*>::iterator start = m_Shapes.begin();
-        std::vector<Fraint::Shape*>::iterator i = m_Shapes.end() - 1;
-
-		for (; i >= start; i--)
+		for(auto i = m_Shapes.rbegin(); i != m_Shapes.rend(); ++i)
 		{
-			m_CurrentShape = *i;
-
-			if (m_CurrentShape->IsOn(point))
+			if ((*i)->IsOn(point))
 			{
 				m_CurrentShape = *i;
 				break;
@@ -174,10 +170,10 @@ void CChildView::OnLButtonUp(UINT nFlags, CPoint point)
 		ReleaseDC(pDC);
 
 		m_Shapes.push_back(m_CurrentShape);
-
-		m_StartPoint.x = -1;
-		m_LastPoint.x = -1;
 	}
+
+	m_StartPoint.x = -1;
+	m_LastPoint.x = -1;
 
 	CWnd::OnLButtonUp(nFlags, point);
 }
@@ -214,19 +210,20 @@ void CChildView::OnSize(UINT nType, int cx, int cy)
 	CWnd::OnSize(nType, cx, cy);
 }
 
+void CChildView::OnShapeRectangle() 
+	{ m_CurrentShapeType = SHAPETYPE_RECTANGLE; }
 
-void CChildView::OnShapeRectangle()
+void CChildView::OnShapeCircle() 
+	{ m_CurrentShapeType = SHAPETYPE_CIRCLE; }
+
+void CChildView::OnShapeSelectortool() 
+	{ m_CurrentShapeType = SHAPETYPE_SELECTOR; }
+
+void CChildView::OnEditDelete()
 {
-	m_CurrentShapeType = SHAPETYPE_RECTANGLE;
-}
+	CWnd::InvalidateRect(m_CurrentShape->GetRect());
+	
+	m_Shapes.erase(std::remove(m_Shapes.begin(), m_Shapes.end(), m_CurrentShape), m_Shapes.end());
 
-void CChildView::OnShapeCircle()
-{
-	m_CurrentShapeType = SHAPETYPE_CIRCLE;
-}
-
-
-void CChildView::OnShapeSelectortool()
-{
-	m_CurrentShapeType = SHAPETYPE_SELECTOR;
+	RedrawShapes();
 }

@@ -4,9 +4,9 @@
 namespace Fraint
 {
 	Shape::Shape(CPoint StartPoint, CPoint EndPoint)
+		: m_StartPoint(StartPoint),
+		m_Rect(StartPoint.x, StartPoint.y, EndPoint.x, EndPoint.y)
 	{
-		m_StartPoint = StartPoint;
-		m_Rect = *new CRect(StartPoint.x, StartPoint.y, EndPoint.x, EndPoint.y);
 	};
 
 	Shape::Shape(CPoint StartPoint)

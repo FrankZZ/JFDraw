@@ -17,6 +17,8 @@ namespace Fraint
 			CPoint m_StartPoint;
 			CPoint m_EndPoint;
 			CRect m_Rect;
+			CPen m_Pen;
+			CBrush m_Brush;
 
 		// Implementation
 		public:
