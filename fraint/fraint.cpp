@@ -18,6 +18,8 @@
 BEGIN_MESSAGE_MAP(CfraintApp, CWinAppEx)
 	ON_COMMAND(ID_APP_ABOUT, &CfraintApp::OnAppAbout)
 	ON_COMMAND(ID_ABOUT_AA, &CfraintApp::OnHelpAbout)
+	ON_COMMAND(ID_FILE_SAVE32779, &CfraintApp::OnFileSave)
+	ON_COMMAND(ID_FILE_OPEN32778, &CfraintApp::OnFileOpen)
 END_MESSAGE_MAP()
 
 
@@ -162,4 +164,14 @@ void CfraintApp::OnHelpAbout()
 {
 	CAboutDlg aboutDlg;
 	aboutDlg.DoModal();
+}
+
+void CfraintApp::OnFileSave()
+{
+	
+}
+
+void CfraintApp::OnFileOpen()
+{
+	
 }

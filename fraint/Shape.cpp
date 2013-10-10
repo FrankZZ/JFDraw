@@ -1,12 +1,14 @@
 #include "stdafx.h"
 #include "fraint.h"
 #include "Shape.h"
+
 namespace Fraint
 {
-	Shape::Shape(CPoint StartPoint, CPoint EndPoint)
-		: m_StartPoint(StartPoint),
+	Shape::Shape(CPoint StartPoint, CPoint EndPoint) : m_StartPoint(StartPoint), 
+		
 		m_Rect(StartPoint.x, StartPoint.y, EndPoint.x, EndPoint.y)
 	{
+		// 
 	};
 
 	Shape::Shape(CPoint StartPoint)
@@ -23,5 +25,19 @@ namespace Fraint
 	bool Shape::IsOn(CPoint point)
 	{
 		return m_Rect.PtInRect(point);
+	};
+
+	void Shape::Serialize(CArchive& archive)
+	{
+		CObject::Serialize(archive);
+
+		if (archive.IsStoring())
+		{
+			archive << m_StartPoint << m_EndPoint;
+		}
+		else
+		{
+			archive >> m_StartPoint >> m_EndPoint;
+		}
 	}
 }

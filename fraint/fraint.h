@@ -38,6 +38,8 @@ public:
 	afx_msg void OnHelpAbout();
 	afx_msg void OnShapeSelectortool();
 	afx_msg void OnShapeCircle();
+	afx_msg void OnFileSave();
+	afx_msg void OnFileOpen();
 };
 
 extern CfraintApp theApp;

@@ -5,12 +5,15 @@
 
 namespace Fraint
 {
-	class Shape
+	class Shape : public CObject
 	{
+		//DECLARE_SERIAL(Shape)
+
 		// Construction
 		public:
 			Shape(CPoint StartPoint, CPoint EndPoint);
 			Shape(CPoint StartPoint);
+			Shape();
 
 		// Attributes
 		protected:
@@ -26,5 +29,7 @@ namespace Fraint
 			void SetEndPoint(CPoint EndPoint);
 			CRect GetRect() { return m_Rect; };
 			bool IsOn(CPoint point);
+
+			void Serialize(CArchive& archive);
 	};
 };
