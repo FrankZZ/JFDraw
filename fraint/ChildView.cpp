@@ -197,16 +197,21 @@ void CChildView::RedrawShapes()
 {
 	CWnd::UpdateWindow();
 	
-	for (auto i : m_Shapes)
+	if (m_Shapes.empty() == false)
 	{
-		i->Draw(GetDC());
+		for (auto i : m_Shapes)
+		{
+			i->Draw(GetDC());
+		}
 	}
 }
 
 void CChildView::OnSize(UINT nType, int cx, int cy)
 {
 	RedrawShapes();
-
+	
+	// CWnd::MoveWindow(0, 0, cx, cy);
+	
 	CWnd::OnSize(nType, cx, cy);
 }
 
