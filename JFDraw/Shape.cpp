@@ -8,7 +8,7 @@ namespace Fraint
 		
 		m_Rect(StartPoint.x, StartPoint.y, EndPoint.x, EndPoint.y)
 	{
-		// 
+		// Stub
 	};
 
 	Shape::Shape(CPoint StartPoint)
@@ -29,9 +29,7 @@ namespace Fraint
 
 	void Shape::Serialize(CArchive& archive)
 	{
-		CObject::Serialize(archive);
-
-		if (archive.IsStoring())
+		if (archive.IsStoring()) // Write
 		{
 			archive << m_StartPoint << m_EndPoint;
 		}

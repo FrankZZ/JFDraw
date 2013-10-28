@@ -32,14 +32,8 @@ public:
 
 public:
 	afx_msg void OnAppAbout();
-	DECLARE_MESSAGE_MAP()
-	afx_msg void OnShapeRectangle();
-//	afx_msg void OnShapeCircle();
 	afx_msg void OnHelpAbout();
-	afx_msg void OnShapeSelectortool();
-	afx_msg void OnShapeCircle();
-	afx_msg void OnFileSave();
-	afx_msg void OnFileOpen();
+	DECLARE_MESSAGE_MAP()
 };
 
 extern JFDraw theApp;

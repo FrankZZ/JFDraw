@@ -18,8 +18,6 @@
 BEGIN_MESSAGE_MAP(JFDraw, CWinAppEx)
 	ON_COMMAND(ID_APP_ABOUT, &JFDraw::OnAppAbout)
 	ON_COMMAND(ID_ABOUT_AA, &JFDraw::OnHelpAbout)
-	ON_COMMAND(ID_FILE_SAVE32779, &JFDraw::OnFileSave)
-	ON_COMMAND(ID_FILE_OPEN32778, &JFDraw::OnFileOpen)
 END_MESSAGE_MAP()
 
 
@@ -101,10 +99,6 @@ BOOL JFDraw::InitInstance()
 		WS_OVERLAPPEDWINDOW | FWS_ADDTOTITLE, NULL,
 		NULL);
 
-
-
-
-
 	// The one and only window has been initialized, so show and update it
 	pFrame->ShowWindow(SW_SHOW);
 	pFrame->UpdateWindow();
@@ -164,25 +158,4 @@ void JFDraw::OnHelpAbout()
 {
 	CAboutDlg aboutDlg;
 	aboutDlg.DoModal();
-}
-
-void JFDraw::OnFileSave()
-{
-	
-}
-
-void JFDraw::OnFileOpen()
-{
-	CFileDialog* fd = new CFileDialog(true);
-	CString fileName;
-
-	fd->m_ofn.lpstrTitle = TEXT("Open save file");
-	fd->m_ofn.lpstrFilter = TEXT("JFDraw Files (*.jfd)");
-
-	if (fd->DoModal() == IDOK)
-	{
-		fileName = fd->GetPathName();
-	}
-
-	fileName.ReleaseBuffer();
 }

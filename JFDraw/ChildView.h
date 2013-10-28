@@ -57,5 +57,6 @@ public:
 	afx_msg void OnShapeCircle();
 	afx_msg void OnShapeSelectortool();
 	afx_msg void OnEditDelete();
+	afx_msg void OnFileOpen();
+	afx_msg void OnFileSave();
 };
-
