@@ -51,7 +51,8 @@ CChildView::CChildView()
 	m_StartPoint(-1, -1),
 	m_TemporaryPen(PS_DOT, 1, RGB(0, 0, 0)),
 	m_Shapes(),
-m_CurrentShapeType(SHAPETYPE_CIRCLE)
+	m_CurrentShapeType(SHAPETYPE_CIRCLE),
+	m_CurrentShape(NULL)
 {
 }
 
@@ -169,7 +170,7 @@ void CChildView::OnLButtonUp(UINT nFlags, CPoint point)
 			}
 		}
 	}
-	else
+	else if(m_CurrentShape)
 	{
 		CDC* pDC = GetDC();
 
