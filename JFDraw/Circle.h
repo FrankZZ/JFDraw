@@ -15,5 +15,6 @@ namespace Fraint
 	public:
 		void Draw(CDC *pDC);
 		void DrawTo(CDC *pDC, CPoint ToPoint);
+		void SetEndPoint(CPoint point);
 	};
 }
