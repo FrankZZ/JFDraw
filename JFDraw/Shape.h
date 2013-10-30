@@ -26,6 +26,9 @@ namespace Fraint
 			CBrush m_Brush;
 			string m_Name;
 
+		private:
+			int m_PenWidth;
+
 		// Implementation
 		public:
 			virtual void Init() {};
@@ -34,5 +37,7 @@ namespace Fraint
 			CRect GetRect() { return m_Rect; };
 			bool IsOn(CPoint point);
 			virtual string ToString();
+			void SetPenWidth(int width);
+			int GetPenWidth();
 	};
 };

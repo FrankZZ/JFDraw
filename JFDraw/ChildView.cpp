@@ -134,6 +134,8 @@ void CChildView::OnLButtonDown(UINT nFlags, CPoint point)
 		m_CurrentShape = new Fraint::Square(m_StartPoint);
 	}
 
+	m_CurrentShape->SetPenWidth(m_PenWidth);
+
 	CWnd::OnLButtonDown(nFlags, point);
 }
 
@@ -188,6 +190,12 @@ void CChildView::OnLButtonUp(UINT nFlags, CPoint point)
 		if (m_LastPoint.x != -1)
 		{
 			m_CurrentShape->SetEndPoint(m_LastPoint);
+
+			CPen pen;
+			pen.CreatePen(PS_SOLID, m_CurrentShape->GetPenWidth(), RGB(0, 0, 0));
+
+			pDC->SelectObject(pen);
+
 			m_CurrentShape->Draw(pDC);
 		}
 
@@ -308,12 +316,12 @@ void CChildView::OnBorderSize1()
 
 void CChildView::OnBorderSize2()
 {
-	m_PenWidth = 2;
+	m_PenWidth = 3;
 }
 
 void CChildView::OnBorderSize3()
 {
-	m_PenWidth = 3;
+	m_PenWidth = 5;
 }
 
 void CChildView::OnUpdateBorderSize1(CCmdUI *pCmdUI)
@@ -323,12 +331,12 @@ void CChildView::OnUpdateBorderSize1(CCmdUI *pCmdUI)
 
 void CChildView::OnUpdateBorderSize2(CCmdUI *pCmdUI)
 {
-	pCmdUI->SetCheck(m_PenWidth == 2);
+	pCmdUI->SetCheck(m_PenWidth == 3);
 }
 
 void CChildView::OnUpdateBorderSize3(CCmdUI *pCmdUI)
 {
-	pCmdUI->SetCheck(m_PenWidth == 3);
+	pCmdUI->SetCheck(m_PenWidth == 5);
 }
 
 void CChildView::OnEditDelete()
@@ -369,7 +377,7 @@ void CChildView::OnFileOpen()
 					segs.push_back(seg);
 				}
 
-				if (segs.size() != 5)
+				if (segs.size() != 6)
 				{
 					continue;
 				}
