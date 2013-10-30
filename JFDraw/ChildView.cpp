@@ -12,6 +12,7 @@
 #include "Ellipse.h"
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <algorithm>
 #include "ChildView.h"
 
@@ -50,7 +51,7 @@ CChildView::CChildView()
 	m_StartPoint(-1, -1),
 	m_TemporaryPen(PS_DOT, 1, RGB(0, 0, 0)),
 	m_Shapes(),
-	m_CurrentShapeType(SHAPETYPE_CIRCLE)
+m_CurrentShapeType(SHAPETYPE_CIRCLE)
 {
 }
 
@@ -215,12 +216,26 @@ void CChildView::RedrawShapes()
 	}
 }
 
+// Reset
+void CChildView::Reset()
+{
+	if (m_Shapes.empty() == false)
+	{
+		for (auto i : m_Shapes)
+		{
+			CWnd::InvalidateRect(i->GetRect());
+		}
+
+		m_Shapes.clear();
+		RedrawShapes();
+	}
+};
+
 void CChildView::OnSize(UINT nType, int cx, int cy)
 {
 	RedrawShapes();
 	
 	// CWnd::MoveWindow(0, 0, cx, cy);
-	
 	CWnd::OnSize(nType, cx, cy);
 }
 
@@ -245,7 +260,6 @@ void CChildView::OnEditDelete()
 	CWnd::InvalidateRect(m_CurrentShape->GetRect());
 	
 	m_Shapes.erase(std::remove(m_Shapes.begin(), m_Shapes.end(), m_CurrentShape), m_Shapes.end());
-
 	RedrawShapes();
 }
 
@@ -260,6 +274,58 @@ void CChildView::OnFileOpen()
 	if (fd->DoModal() == IDOK)
 	{
 		fileName = fd->GetPathName();
+
+		ifstream file(fileName);
+		string rawline;
+ 
+		CChildView::Reset();
+
+		while (getline(file, rawline))
+		{
+			if (!rawline.empty())
+			{
+				stringstream line(rawline);
+				string seg;
+				vector<string> segs;
+
+				while (getline(line, seg, ','))
+				{
+					segs.push_back(seg);
+				}
+
+				if (segs.size() != 5)
+				{
+					continue;
+				}
+
+				CPoint startp(stoi(segs[1]), stoi(segs[2]));
+				CPoint endp(stoi(segs[3]), stoi(segs[4]));
+
+				if (segs[0] == "Circle")
+				{
+					m_Shapes.push_back(new Fraint::Circle(startp, endp));
+				}
+				else if (segs[0] == "Rectangle")
+				{
+					m_Shapes.push_back(new Fraint::Rectangle(startp, endp));
+				}
+				else if (segs[0] == "Ellipse")
+				{
+					m_Shapes.push_back(new Fraint::Ellipse(startp, endp));
+				}
+				else if (segs[0] == "Square")
+				{
+					m_Shapes.push_back(new Fraint::Square(startp, endp));
+				}
+				else
+				{
+					continue;
+				}
+			}
+		}
+ 
+		RedrawShapes();
+		file.close();
 	}
 
 	fileName.ReleaseBuffer();
@@ -280,9 +346,12 @@ void CChildView::OnFileSave()
 		ofstream file;
 		file.open(fileName);
 
-		for (int i = 0; i < m_Shapes.size(); i++)
+		if (m_Shapes.empty() == false)
 		{
-			file << m_Shapes[i]->ToString();
+			for (auto i : m_Shapes)
+			{
+				file << i->ToString();
+			}
 		}
 
 		file.close();

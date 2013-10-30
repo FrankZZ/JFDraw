@@ -61,4 +61,9 @@ public:
 	afx_msg void OnFileSave();
 	afx_msg void OnShapeSquare();
 	afx_msg void OnShapeEllipse();
+	void Reset();
+	afx_msg void OnBorderSize1(CCmdUI *pCmdUI);
+	afx_msg void OnBorderSize2(CCmdUI *pCmdUI);
+	afx_msg void OnBorderSize3(CCmdUI *pCmdUI);
+	afx_msg void OnUpdateBorderSize(CCmdUI *pCmdUI);
 };

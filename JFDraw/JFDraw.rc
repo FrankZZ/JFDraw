@@ -126,6 +126,13 @@ BEGIN
         MENUITEM "Selector Tool",               ID_SHAPE_SELECTORTOOL
         MENUITEM "Square",                      ID_SHAPE_SQUARE
         MENUITEM "Ellipse",                     ID_SHAPE_ELLIPSE
+        MENUITEM SEPARATOR
+        POPUP "Border Size"
+        BEGIN
+            MENUITEM "Default",                     ID_SHAPESIZE_1
+            MENUITEM "Wider",                       ID_SHAPESIZE_2
+            MENUITEM "Widest",                      ID_SHAPESIZE_3
+        END
     END
     POPUP "&Help"
     BEGIN

@@ -16,13 +16,13 @@ namespace Fraint
 		// Constructor
 	};
 
-	string itos(int i)
+	string ltos(long l)
 	{
-		stringstream s;
-		s << i;
+		ostringstream s;
+		s << l;
 
 		return s.str();
-	}
+	};
 
 	Shape::Shape(CPoint StartPoint)
 	{
@@ -45,8 +45,8 @@ namespace Fraint
 	string Shape::ToString()
 	{
 		return m_Name + ","
-			+ itos(m_StartPoint.x) + "," + itos(m_StartPoint.y) 
-			+ "," + itos(m_EndPoint.x) + "," + itos(m_EndPoint.y) 
-		+ "\r\n";
+			+ ltos(m_StartPoint.x) + "," + ltos(m_StartPoint.y) 
+			+ "," + ltos(m_EndPoint.x) + "," + ltos(m_EndPoint.y) 
+		+ "\n";
 	}
 };
