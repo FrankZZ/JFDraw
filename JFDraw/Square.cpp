@@ -32,13 +32,19 @@ namespace Fraint
 		if (m_Rect.Height() > m_Rect.Width())
 		{
 			int width = m_Rect.Width();
-			m_Rect.SetRect(m_StartPoint.x, m_StartPoint.y, m_StartPoint.x + width, m_StartPoint.y + width);
+
+			m_EndPoint.x = m_StartPoint.x + width;
+			m_EndPoint.y = m_StartPoint.y + width;
 		} 
 		else
 		{
 			int height = m_Rect.Height();
-			m_Rect.SetRect(m_StartPoint.x, m_StartPoint.y, m_StartPoint.x + height, m_StartPoint.y + height);
+
+			m_EndPoint.x = m_StartPoint.x + height;
+			m_EndPoint.y = m_StartPoint.y + height;
 		}
+
+		m_Rect.SetRect(m_StartPoint.x, m_StartPoint.y, m_EndPoint.x, m_EndPoint.y);
 	}
 
 	void Square::Draw(CDC *pDC)

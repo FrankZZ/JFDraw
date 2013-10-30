@@ -12,6 +12,7 @@ namespace Fraint
 {
 	Shape::Shape(CPoint StartPoint, CPoint EndPoint) : 
 		m_StartPoint(StartPoint), 
+		m_EndPoint(EndPoint),
 		m_Rect(StartPoint.x, StartPoint.y, EndPoint.x, EndPoint.y)
 	{
 		// Constructor
