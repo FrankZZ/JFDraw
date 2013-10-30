@@ -8,6 +8,8 @@
 #include "Shape.h"
 #include "Rectangle.h"
 #include "Circle.h"
+#include "Square.h"
+#include "Ellipse.h"
 #include <iostream>
 #include <algorithm>
 #include "ChildView.h"
@@ -19,22 +21,24 @@
 #endif
 
 #ifndef SHAPETYPE_RECTANGLE
-
 #define SHAPETYPE_RECTANGLE 0
-
 #endif
 
 
 #ifndef SHAPETYPE CIRCLE
-
 #define SHAPETYPE_CIRCLE 1
-
 #endif
 
 #ifndef SHAPETYPE SELECTOR
-
 #define SHAPETYPE_SELECTOR 2
+#endif
 
+#ifndef SHAPETYPE_SQUARE
+#define SHAPETYPE_SQUARE 3
+#endif
+
+#ifndef SHAPETYPE_ELLIPSE
+#define SHAPETYPE_ELLIPSE 4
 #endif
 
 
@@ -66,6 +70,8 @@ BEGIN_MESSAGE_MAP(CChildView, CWnd)
 	ON_COMMAND(ID_EDIT_DELETE, &CChildView::OnEditDelete)
 	ON_COMMAND(ID_FILE_OPEN32778, &CChildView::OnFileOpen)
 	ON_COMMAND(ID_FILE_SAVE32779, &CChildView::OnFileSave)
+	ON_COMMAND(ID_SHAPE_SQUARE, &CChildView::OnShapeSquare)
+	ON_COMMAND(ID_SHAPE_ELLIPSE, &CChildView::OnShapeEllipse)
 END_MESSAGE_MAP()
 
 // CChildView message handlers
@@ -104,6 +110,14 @@ void CChildView::OnLButtonDown(UINT nFlags, CPoint point)
 	else if (m_CurrentShapeType== SHAPETYPE_RECTANGLE)
 	{
 		m_CurrentShape = new Fraint::Rectangle(m_StartPoint);
+	}
+	else if (m_CurrentShapeType== SHAPETYPE_ELLIPSE)
+	{
+		m_CurrentShape = new Fraint::Ellipse(m_StartPoint);
+	}
+	else if (m_CurrentShapeType== SHAPETYPE_SQUARE)
+	{
+		m_CurrentShape = new Fraint::Square(m_StartPoint);
 	}
 
 	CWnd::OnLButtonDown(nFlags, point);
@@ -217,6 +231,13 @@ void CChildView::OnShapeCircle()
 
 void CChildView::OnShapeSelectortool() 
 	{ m_CurrentShapeType = SHAPETYPE_SELECTOR; }
+
+void CChildView::OnShapeSquare()
+	{ m_CurrentShapeType = SHAPETYPE_SQUARE; }
+
+void CChildView::OnShapeEllipse()
+	{ m_CurrentShapeType = SHAPETYPE_ELLIPSE; }
+
 
 void CChildView::OnEditDelete()
 {

@@ -59,4 +59,6 @@ public:
 	afx_msg void OnEditDelete();
 	afx_msg void OnFileOpen();
 	afx_msg void OnFileSave();
+	afx_msg void OnShapeSquare();
+	afx_msg void OnShapeEllipse();
 };
