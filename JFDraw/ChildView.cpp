@@ -11,6 +11,7 @@
 #include "Square.h"
 #include "Ellipse.h"
 #include <iostream>
+#include <fstream>
 #include <algorithm>
 #include "ChildView.h"
 
@@ -275,6 +276,18 @@ void CChildView::OnFileSave()
 	if (fd->DoModal() == IDOK)
 	{
 		fileName = fd->GetPathName();
+
+		ofstream file;
+		file.open(fileName);
+
+		for (int i = 0; i < m_Shapes.size(); i++)
+		{
+			file << m_Shapes[i]->ToString();
+		}
+
+		file.close();
+
+		delete fd;
 	}
 
 	fileName.ReleaseBuffer();

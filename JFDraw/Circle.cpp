@@ -3,8 +3,24 @@
 #include "Shape.h"
 #include "Circle.h"
 
+using namespace std;
+
 namespace Fraint
 {
+	Circle::Circle(CPoint StartPoint, CPoint EndPoint) : Shape(StartPoint, EndPoint)
+	{
+		Circle::Init();
+	};
+
+	Circle::Circle(CPoint StartPoint) : Shape(StartPoint)
+	{
+		Circle::Init();
+	};
+
+	void Circle::Init()
+	{
+		m_Name = "Circle";
+	}
 
 	void Circle::SetEndPoint(CPoint EndPoint)
 	{
@@ -31,5 +47,4 @@ namespace Fraint
 	{
 		pDC->Ellipse(m_Rect);
 	};
-
 }

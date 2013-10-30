@@ -2,14 +2,27 @@
 #include "JFDraw.h"
 #include "Shape.h"
 
+#include <string>
+#include <iostream>
+#include <sstream>
+
+using namespace std;
+
 namespace Fraint
 {
-	Shape::Shape(CPoint StartPoint, CPoint EndPoint) : m_StartPoint(StartPoint), 
-		
-		m_Rect(StartPoint.x, StartPoint.y, EndPoint.x, EndPoint.y)
+	Shape::Shape(CPoint StartPoint, CPoint EndPoint) : 
+		m_StartPoint(StartPoint), m_Rect(StartPoint.x, StartPoint.y, EndPoint.x, EndPoint.y)
 	{
-		// Stub
+		// Constructor
 	};
+
+	string itos(int i)
+	{
+		stringstream s;
+		s << i;
+
+		return s.str();
+	}
 
 	Shape::Shape(CPoint StartPoint)
 	{
@@ -27,8 +40,11 @@ namespace Fraint
 		return m_Rect.PtInRect(point);
 	};
 
-	CString Shape::ToString()
+	string Shape::ToString()
 	{
-		return CString("");
-	};
-}
+		return m_Name + ","
+			+ itos(m_StartPoint.x) + "," + itos(m_StartPoint.y) 
+			+ "," + itos(m_EndPoint.x) + "," + itos(m_EndPoint.y) 
+		+ "\r\n";
+	}
+};

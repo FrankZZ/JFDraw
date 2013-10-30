@@ -5,6 +5,20 @@
 
 namespace Fraint
 {
+	Square::Square(CPoint StartPoint, CPoint EndPoint) : Shape(StartPoint, EndPoint)
+	{
+		Square::Init();
+	};
+
+	Square::Square(CPoint StartPoint) : Shape(StartPoint)
+	{
+		Square::Init();
+	};
+
+	void Square::Init()
+	{
+		m_Name = "Square";
+	};
 
 	void Square::SetEndPoint(CPoint EndPoint)
 	{
@@ -31,5 +45,4 @@ namespace Fraint
 	{
 		pDC->Rectangle(m_Rect);
 	};
-
 }

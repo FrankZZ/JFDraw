@@ -8,11 +8,12 @@ namespace Fraint
 	{
 		// Construction
 	public:
-		Square(CPoint StartPoint) : Shape(StartPoint) {};
-		Square(CPoint StartPoint, CPoint EndPoint) : Shape(StartPoint, EndPoint) {};
+		Square(CPoint StartPoint);
+		Square(CPoint StartPoint, CPoint EndPoint);
 
 		// Implementation
 	public:
+		void Init();
 		void Draw(CDC *pDC);
 		void DrawTo(CDC *pDC, CPoint ToPoint);
 		void SetEndPoint(CPoint point);

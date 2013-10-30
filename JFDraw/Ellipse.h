@@ -2,18 +2,17 @@
 
 namespace Fraint
 {
-
 	class Ellipse : public Shape
 	{
 		// Construction
 	public:
-		Ellipse(CPoint StartPoint) : Shape(StartPoint) {};
-		Ellipse(CPoint StartPoint, CPoint EndPoint) : Shape(StartPoint, EndPoint) {};
+		Ellipse(CPoint StartPoint);
+		Ellipse(CPoint StartPoint, CPoint EndPoint);
 
 		// Implementation
 	public:
+		void Init();
 		void Draw(CDC *pDC);
 		void DrawTo(CDC *pDC, CPoint ToPoint);
 	};
-
 }

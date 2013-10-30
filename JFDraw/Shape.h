@@ -3,12 +3,14 @@
 //
 #pragma once
 
+#include <string>
+
+using namespace std;
+
 namespace Fraint
 {
 	class Shape : public CObject
 	{
-		//DECLARE_SERIAL(Shape)
-
 		// Construction
 		public:
 			Shape(CPoint StartPoint, CPoint EndPoint);
@@ -22,14 +24,15 @@ namespace Fraint
 			CRect m_Rect;
 			CPen m_Pen;
 			CBrush m_Brush;
+			string m_Name;
 
 		// Implementation
 		public:
+			virtual void Init() {};
 			virtual void Draw(CDC *pDC) {};
 			virtual void SetEndPoint(CPoint EndPoint);
 			CRect GetRect() { return m_Rect; };
 			bool IsOn(CPoint point);
-
-			virtual CString ToString();
+			virtual string ToString();
 	};
 };
