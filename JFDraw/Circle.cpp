@@ -24,7 +24,7 @@ namespace Fraint
 
 	void Circle::SetEndPoint(CPoint EndPoint)
 	{
-		m_Rect.SetRect(m_StartPoint.x, m_StartPoint.y, EndPoint.x, EndPoint.y);
+		Shape::SetEndPoint(EndPoint);
 		
 		m_Rect.NormalizeRect();
 
