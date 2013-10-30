@@ -267,7 +267,7 @@ void CChildView::OnEditDelete()
 void CChildView::OnFileOpen()
 {
 	CFileDialog* fd = new CFileDialog(true, _T("jfd"), _T("*.jfd"));
-	CString fileName;
+	wstring fileName;
 
 	fd->m_ofn.lpstrTitle = TEXT("Open save file");
 	fd->m_ofn.lpstrFilter = TEXT("JFDraw Files (*.jfd)");
@@ -328,14 +328,12 @@ void CChildView::OnFileOpen()
 		RedrawShapes();
 		file.close();
 	}
-
-	fileName.ReleaseBuffer();
 }
 
 void CChildView::OnFileSave()
 {
 	CFileDialog* fd = new CFileDialog(false, _T("jfd"), _T("*.jfd"));
-	CString fileName;
+	wstring fileName;
 
 	fd->m_ofn.lpstrTitle = TEXT("Save file");
 	fd->m_ofn.lpstrFilter = TEXT("JFDraw Files (*.jfd)");
@@ -359,6 +357,4 @@ void CChildView::OnFileSave()
 
 		delete fd;
 	}
-
-	fileName.ReleaseBuffer();
 }
