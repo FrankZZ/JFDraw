@@ -32,6 +32,8 @@ namespace Fraint
 
 	void Shape::SetEndPoint(CPoint EndPoint)
 	{
+		m_EndPoint = EndPoint;
+
 		m_Rect.SetRect(m_StartPoint.x, m_StartPoint.y, EndPoint.x, EndPoint.y);
 	};
 
