@@ -30,6 +30,6 @@ namespace Fraint
 			CRect GetRect() { return m_Rect; };
 			bool IsOn(CPoint point);
 
-			void Serialize(CArchive& archive);
+			virtual CString ToString();
 	};
 };

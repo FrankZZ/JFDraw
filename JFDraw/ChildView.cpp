@@ -238,11 +238,6 @@ void CChildView::OnFileOpen()
 	if (fd->DoModal() == IDOK)
 	{
 		fileName = fd->GetPathName();
-
-		CFile openFile;
-		openFile.Open(fileName, CFile::modeRead);
-
-		CArchive archive(&openFile, CArchive::load);
 	}
 
 	fileName.ReleaseBuffer();
@@ -259,21 +254,6 @@ void CChildView::OnFileSave()
 	if (fd->DoModal() == IDOK)
 	{
 		fileName = fd->GetPathName();
-
-		CFile saveFile;
-		saveFile.Open(fileName, CFile::modeCreate | CFile::modeWrite);
-
-		CArchive archive(&saveFile, CArchive::store);
-
-		for (int i = 0; i < m_Shapes.size(); i++)
-		{
-			Fraint::Shape* shape = m_Shapes[i];
-
-			shape->Serialize(archive);
-		}
-
-		archive.Close();
-		saveFile.Close();
 	}
 
 	fileName.ReleaseBuffer();

@@ -27,15 +27,8 @@ namespace Fraint
 		return m_Rect.PtInRect(point);
 	};
 
-	void Shape::Serialize(CArchive& archive)
+	CString Shape::ToString()
 	{
-		if (archive.IsStoring()) // Write
-		{
-			archive << m_StartPoint << m_EndPoint;
-		}
-		else
-		{
-			archive >> m_StartPoint >> m_EndPoint;
-		}
-	}
+		return CString("");
+	};
 }
