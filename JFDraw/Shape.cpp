@@ -11,7 +11,8 @@ using namespace std;
 namespace Fraint
 {
 	Shape::Shape(CPoint StartPoint, CPoint EndPoint) : 
-		m_StartPoint(StartPoint), m_Rect(StartPoint.x, StartPoint.y, EndPoint.x, EndPoint.y)
+		m_StartPoint(StartPoint), 
+		m_Rect(StartPoint.x, StartPoint.y, EndPoint.x, EndPoint.y)
 	{
 		// Constructor
 	};
@@ -25,9 +26,9 @@ namespace Fraint
 	};
 
 	Shape::Shape(CPoint StartPoint)
+		: m_StartPoint(StartPoint),
+		m_Rect(0, 0, 0, 0)
 	{
-		m_StartPoint = StartPoint;
-		m_Rect = *new CRect(0, 0, 0, 0);
 	};
 
 	void Shape::SetEndPoint(CPoint EndPoint)
