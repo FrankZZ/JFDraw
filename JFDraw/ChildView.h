@@ -28,6 +28,8 @@ private:
 
 	CPen m_TemporaryPen;
 
+	int m_PenWidth = 1;
+
 // Operations
 public:
 
@@ -62,8 +64,16 @@ public:
 	afx_msg void OnShapeSquare();
 	afx_msg void OnShapeEllipse();
 	void Reset();
-	afx_msg void OnBorderSize1(CCmdUI *pCmdUI);
-	afx_msg void OnBorderSize2(CCmdUI *pCmdUI);
-	afx_msg void OnBorderSize3(CCmdUI *pCmdUI);
-	afx_msg void OnUpdateBorderSize(CCmdUI *pCmdUI);
+
+	afx_msg void OnBorderSize1();
+	afx_msg void OnUpdateBorderSize1(CCmdUI *pCmdUI);
+	afx_msg void OnBorderSize2();
+	afx_msg void OnBorderSize3();
+	afx_msg void OnUpdateBorderSize2(CCmdUI *pCmdUI);
+	afx_msg void OnUpdateBorderSize3(CCmdUI *pCmdUI);
+	afx_msg void OnUpdateShapeRectangle(CCmdUI *pCmdUI);
+	afx_msg void OnUpdateShapeCircle(CCmdUI *pCmdUI);
+	afx_msg void OnUpdateShapeSelectorTool(CCmdUI *pCmdUI);
+	afx_msg void OnUpdateShapeSquare(CCmdUI *pCmdUI);
+	afx_msg void OnUpdateShapeEllipse(CCmdUI *pCmdUI);
 };

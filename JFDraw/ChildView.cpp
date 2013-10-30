@@ -75,6 +75,17 @@ BEGIN_MESSAGE_MAP(CChildView, CWnd)
 	ON_COMMAND(ID_FILE_SAVE32779, &CChildView::OnFileSave)
 	ON_COMMAND(ID_SHAPE_SQUARE, &CChildView::OnShapeSquare)
 	ON_COMMAND(ID_SHAPE_ELLIPSE, &CChildView::OnShapeEllipse)
+	ON_COMMAND(ID_SHAPESIZE_1, &CChildView::OnBorderSize1)
+	ON_UPDATE_COMMAND_UI(ID_SHAPESIZE_1, &CChildView::OnUpdateBorderSize1)
+	ON_COMMAND(ID_SHAPESIZE_2, &CChildView::OnBorderSize2)
+	ON_COMMAND(ID_SHAPESIZE_3, &CChildView::OnBorderSize3)
+	ON_UPDATE_COMMAND_UI(ID_SHAPESIZE_2, &CChildView::OnUpdateBorderSize2)
+	ON_UPDATE_COMMAND_UI(ID_SHAPESIZE_3, &CChildView::OnUpdateBorderSize3)
+	ON_UPDATE_COMMAND_UI(ID_SHAPE_RECTANGLE, &CChildView::OnUpdateShapeRectangle)
+	ON_UPDATE_COMMAND_UI(ID_SHAPE_CIRCLE, &CChildView::OnUpdateShapeCircle)
+	ON_UPDATE_COMMAND_UI(ID_SHAPE_SELECTORTOOL, &CChildView::OnUpdateShapeSelectorTool)
+	ON_UPDATE_COMMAND_UI(ID_SHAPE_SQUARE, &CChildView::OnUpdateShapeSquare)
+	ON_UPDATE_COMMAND_UI(ID_SHAPE_ELLIPSE, &CChildView::OnUpdateShapeEllipse)
 END_MESSAGE_MAP()
 
 // CChildView message handlers
@@ -241,20 +252,84 @@ void CChildView::OnSize(UINT nType, int cx, int cy)
 }
 
 void CChildView::OnShapeRectangle() 
-	{ m_CurrentShapeType = SHAPETYPE_RECTANGLE; }
+{
+	m_CurrentShapeType = SHAPETYPE_RECTANGLE;
+}
 
 void CChildView::OnShapeCircle() 
-	{ m_CurrentShapeType = SHAPETYPE_CIRCLE; }
+{
+	m_CurrentShapeType = SHAPETYPE_CIRCLE;
+}
 
 void CChildView::OnShapeSelectortool() 
-	{ m_CurrentShapeType = SHAPETYPE_SELECTOR; }
+{
+	m_CurrentShapeType = SHAPETYPE_SELECTOR;
+}
 
 void CChildView::OnShapeSquare()
-	{ m_CurrentShapeType = SHAPETYPE_SQUARE; }
+{
+	m_CurrentShapeType = SHAPETYPE_SQUARE;
+}
 
 void CChildView::OnShapeEllipse()
-	{ m_CurrentShapeType = SHAPETYPE_ELLIPSE; }
+{
+	m_CurrentShapeType = SHAPETYPE_ELLIPSE;
+}
 
+void CChildView::OnUpdateShapeRectangle(CCmdUI *pCmdUI)
+{
+	pCmdUI->SetCheck(m_CurrentShapeType == SHAPETYPE_RECTANGLE);
+}
+
+void CChildView::OnUpdateShapeCircle(CCmdUI *pCmdUI)
+{
+	pCmdUI->SetCheck(m_CurrentShapeType == SHAPETYPE_CIRCLE);
+}
+
+void CChildView::OnUpdateShapeSelectorTool(CCmdUI *pCmdUI)
+{
+	pCmdUI->SetCheck(m_CurrentShapeType == SHAPETYPE_SELECTOR);
+}
+
+void CChildView::OnUpdateShapeSquare(CCmdUI *pCmdUI)
+{
+	pCmdUI->SetCheck(m_CurrentShapeType == SHAPETYPE_SQUARE);
+}
+
+void CChildView::OnUpdateShapeEllipse(CCmdUI *pCmdUI)
+{
+	pCmdUI->SetCheck(m_CurrentShapeType == SHAPETYPE_ELLIPSE);
+}
+
+void CChildView::OnBorderSize1()
+{
+	m_PenWidth = 1;
+}
+
+void CChildView::OnBorderSize2()
+{
+	m_PenWidth = 2;
+}
+
+void CChildView::OnBorderSize3()
+{
+	m_PenWidth = 3;
+}
+
+void CChildView::OnUpdateBorderSize1(CCmdUI *pCmdUI)
+{
+	pCmdUI->SetCheck(m_PenWidth == 1);
+}
+
+void CChildView::OnUpdateBorderSize2(CCmdUI *pCmdUI)
+{
+	pCmdUI->SetCheck(m_PenWidth == 2);
+}
+
+void CChildView::OnUpdateBorderSize3(CCmdUI *pCmdUI)
+{
+	pCmdUI->SetCheck(m_PenWidth == 3);
+}
 
 void CChildView::OnEditDelete()
 {
