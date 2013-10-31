@@ -10,6 +10,7 @@
 #include "Circle.h"
 #include "Square.h"
 #include "Ellipse.h"
+#include "Polygon.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -45,6 +46,10 @@
 
 #ifndef SHAPETYPE_POLYGON
 #define SHAPETYPE_POLYGON 5
+#endif
+
+#ifndef SHAPETYPE_LINETO
+#define SHAPETYPE_LINETO 6
 #endif
 
 // CChildView
@@ -91,6 +96,8 @@ BEGIN_MESSAGE_MAP(CChildView, CWnd)
 	ON_UPDATE_COMMAND_UI(ID_SHAPE_ELLIPSE, &CChildView::OnUpdateShapeEllipse)
 	ON_COMMAND(ID_SHAPE_P, &CChildView::OnShapePolygon)
 	ON_UPDATE_COMMAND_UI(ID_SHAPE_P, &CChildView::OnUpdateShapePolygon)
+	ON_COMMAND(ID_SHAPE_LINETO, &CChildView::OnShapeLineto)
+	ON_UPDATE_COMMAND_UI(ID_SHAPE_LINETO, &CChildView::OnUpdateShapeLineto)
 END_MESSAGE_MAP()
 
 // CChildView message handlers
@@ -138,6 +145,10 @@ void CChildView::OnLButtonDown(UINT nFlags, CPoint point)
 	{
 		m_CurrentShape = new Fraint::Square(m_StartPoint);
 	}
+	else if (m_CurrentShapeType == SHAPETYPE_POLYGON)
+	{
+		m_CurrentShape = new Fraint::Polygon(m_StartPoint);
+	}
 
 	m_CurrentShape->SetPenWidth(m_PenWidth);
 
@@ -148,9 +159,27 @@ void CChildView::OnMouseMove(UINT nFlags, CPoint point)
 {
 	if (m_StartPoint.x != -1)
 	{
-		if (m_CurrentShapeType != SHAPETYPE_SELECTOR)
+		CDC* pDC = GetDC();
+		/*CRect rect;
+		
+		GetWindowRect(rect);
+
+		if (!rect.PtInRect(point))
 		{
-			CDC* pDC = GetDC();
+		// Muis is buiten window
+			m_StartPoint.x = -1;
+		
+			
+		
+			if (m_CurrentShape != NULL && m_LastPoint.x != -1)
+			{
+				pDC->SetROP2(R2_NOTXORPEN);
+				m_CurrentShape->SetEndPoint(m_LastPoint);
+				m_CurrentShape->Draw(pDC);
+			}
+		}
+		else */if (m_CurrentShapeType != SHAPETYPE_SELECTOR && m_CurrentShapeType != SHAPETYPE_LINETO && m_CurrentShapeType != SHAPETYPE_POLYGON)
+		{
 
 			CPen* pOldPen = pDC->SelectObject(&m_TemporaryPen);
 
@@ -166,10 +195,10 @@ void CChildView::OnMouseMove(UINT nFlags, CPoint point)
 			m_CurrentShape->Draw(pDC);
 
 			pDC->SelectObject(pOldPen);
-			ReleaseDC(pDC);
-		
+			
 			m_LastPoint = point;
 		}
+		ReleaseDC(pDC);
 	}
 
 	CWnd::OnMouseMove(nFlags, point);
@@ -188,11 +217,30 @@ void CChildView::OnLButtonUp(UINT nFlags, CPoint point)
 			}
 		}
 	}
+	else if (m_CurrentShapeType == SHAPETYPE_LINETO)
+	{
+		for (auto i = m_Shapes.rbegin(); i != m_Shapes.rend(); ++i)
+		{
+			if ((*i)->IsOn(point))
+			{
+				CDC* pDC = GetDC();
+
+				pDC->MoveTo(m_CurrentShape->GetRect().CenterPoint());
+				pDC->LineTo((*i)->GetRect().CenterPoint());
+
+				break;
+			}
+		}
+	}
+	/*else if(m_CurrentShapeType == SHAPETYPE_POLYGON)
+	{
+		m_CurrentShape->SetEndPoint(point);
+	}*/
 	else if(m_CurrentShape)
 	{
 		CDC* pDC = GetDC();
 
-		if (m_LastPoint.x != -1)
+		if (m_LastPoint.x != -1 || m_CurrentShapeType == SHAPETYPE_POLYGON)
 		{
 			m_CurrentShape->SetEndPoint(m_LastPoint);
 
@@ -222,7 +270,7 @@ void CChildView::OnEditUndo()
 {
 	if (m_Shapes.empty() == false)
 	{
-		CWnd::InvalidateRect(m_Shapes.back()->GetRect());
+		//CWnd::InvalidateRect(m_Shapes.back()->GetRect());
 
 		m_Shapes.pop_back();
 		
@@ -233,6 +281,12 @@ void CChildView::OnEditUndo()
 // Wachten tot de Window geupdate is (invalidated rectangles erased) en dan de huidige shapes redrawen
 void CChildView::RedrawShapes()
 {
+	CRect rect(NULL);
+
+	GetWindowRect(rect);
+
+	CWnd::InvalidateRect(rect);
+
 	CWnd::UpdateWindow();
 	
 	if (m_Shapes.empty() == false)
@@ -306,6 +360,11 @@ void CChildView::OnShapePolygon()
 	m_CurrentShapeType = SHAPETYPE_POLYGON;
 }
 
+void CChildView::OnShapeLineto()
+{
+	m_CurrentShapeType = SHAPETYPE_LINETO;
+}
+
 void CChildView::OnUpdateShapeRectangle(CCmdUI *pCmdUI)
 {
 	pCmdUI->SetCheck(m_CurrentShapeType == SHAPETYPE_RECTANGLE);
@@ -334,6 +393,11 @@ void CChildView::OnUpdateShapeEllipse(CCmdUI *pCmdUI)
 void CChildView::OnUpdateShapePolygon(CCmdUI *pCmdUI)
 {
 	pCmdUI->SetCheck(m_CurrentShapeType == SHAPETYPE_POLYGON);
+}
+
+void CChildView::OnUpdateShapeLineto(CCmdUI *pCmdUI)
+{
+	pCmdUI->SetCheck(m_CurrentShapeType == SHAPETYPE_LINETO);
 }
 
 void CChildView::OnBorderSize1()

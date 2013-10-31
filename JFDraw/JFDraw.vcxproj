@@ -104,6 +104,7 @@
     <ClInclude Include="Ellipse.h" />
     <ClInclude Include="JFDraw.h" />
     <ClInclude Include="MainFrm.h" />
+    <ClInclude Include="Polygon.h" />
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Shape.h" />
@@ -117,6 +118,7 @@
     <ClCompile Include="Ellipse.cpp" />
     <ClCompile Include="JFDraw.cpp" />
     <ClCompile Include="MainFrm.cpp" />
+    <ClCompile Include="Polygon.cpp" />
     <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="Shape.cpp" />
     <ClCompile Include="Square.cpp" />

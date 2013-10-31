@@ -78,4 +78,6 @@ public:
 	afx_msg void OnUpdateShapeEllipse(CCmdUI *pCmdUI);
 	afx_msg void OnShapePolygon();
 	afx_msg void OnUpdateShapePolygon(CCmdUI *pCmdUI);
+	afx_msg void OnShapeLineto();
+	afx_msg void OnUpdateShapeLineto(CCmdUI *pCmdUI);
 };

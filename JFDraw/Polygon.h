@@ -1,17 +1,18 @@
 #pragma once
 
 #include <string>
+#include <vector>
 
 using namespace std;
 
 namespace Fraint
 {
-	class Circle : public Shape
+	class Polygon : public Shape
 	{
 		// Construction
 	public:
-		Circle(CPoint StartPoint);
-		Circle(CPoint StartPoint, CPoint EndPoint);
+		Polygon(CPoint StartPoint);
+		Polygon(CPoint StartPoint, CPoint EndPoint);
 
 		// Implementation
 	public:
@@ -19,7 +20,8 @@ namespace Fraint
 		void Draw(CDC *pDC);
 		void DrawTo(CDC *pDC, CPoint ToPoint);
 		void SetEndPoint(CPoint point);
-		
-		//bool IsOn(CPoint point);
+
+	private:
+		vector <CPoint> m_vPoints;
 	};
 }
