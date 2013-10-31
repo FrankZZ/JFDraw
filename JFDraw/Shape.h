@@ -32,7 +32,7 @@ namespace Fraint
 		// Implementation
 		public:
 			virtual void Init() {};
-			virtual void Draw(CDC *pDC) {};
+			virtual void Draw(CDC *pDC) =0 {};
 			virtual void SetEndPoint(CPoint EndPoint);
 			CRect GetRect() { return m_Rect; };
 			bool IsOn(CPoint point);

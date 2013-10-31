@@ -76,6 +76,7 @@ BEGIN_MESSAGE_MAP(CChildView, CWnd)
 	ON_COMMAND(ID_EDIT_UNDO, &CChildView::OnEditUndo)
 	ON_WM_SIZE()
 	ON_COMMAND(ID_SHAPE_RECTANGLE, &CChildView::OnShapeRectangle)
+	ON_COMMAND(ID_UNDO,  &CChildView::OnEditDelete)
 	ON_COMMAND(ID_SHAPE_CIRCLE, &CChildView::OnShapeCircle)
 	ON_COMMAND(ID_SHAPE_SELECTORTOOL, &CChildView::OnShapeSelectortool)
 	ON_COMMAND(ID_EDIT_DELETE, &CChildView::OnEditDelete)
@@ -127,7 +128,10 @@ void CChildView::OnPaint()
 void CChildView::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	m_StartPoint = point;
-	
+
+	if (m_CurrentShape)
+		delete m_CurrentShape;
+
 	//m_CurrentShape = new Rectangle1(m_StartPoint);
 	if (m_CurrentShapeType == SHAPETYPE_CIRCLE)
 	{
@@ -160,43 +164,55 @@ void CChildView::OnMouseMove(UINT nFlags, CPoint point)
 	if (m_StartPoint.x != -1)
 	{
 		CDC* pDC = GetDC();
-		/*CRect rect;
-		
-		GetWindowRect(rect);
+		CRect rect;
+		GetClientRect(&rect);
 
-		if (!rect.PtInRect(point))
+		if (point.x > rect.left+5 && point.x < rect.right-5 && point.y > rect.top+5 && point.y < rect.bottom-5)
 		{
-		// Muis is buiten window
-			m_StartPoint.x = -1;
 		
+			if (m_CurrentShapeType != SHAPETYPE_SELECTOR && m_CurrentShapeType != SHAPETYPE_LINETO && m_CurrentShapeType != SHAPETYPE_POLYGON)
+			{
+
+				CPen* pOldPen = pDC->SelectObject(&m_TemporaryPen);
+
+				pDC->SetROP2(R2_NOTXORPEN);
+		
+				if (m_LastPoint.x != -1)
+				{
+					m_CurrentShape->SetEndPoint(m_LastPoint);
+					m_CurrentShape->Draw(pDC);
+				}
+
+				m_CurrentShape->SetEndPoint(point);
+				m_CurrentShape->Draw(pDC);
+
+				pDC->SelectObject(pOldPen);
 			
-		
+				m_LastPoint = point;
+			}
+		}
+		else
+		{
+			// Muis is buiten window
+			m_StartPoint.x = -1;
+
+
+
 			if (m_CurrentShape != NULL && m_LastPoint.x != -1)
 			{
+				CPen* pOldPen = pDC->SelectObject(&m_TemporaryPen);
+
 				pDC->SetROP2(R2_NOTXORPEN);
 				m_CurrentShape->SetEndPoint(m_LastPoint);
 				m_CurrentShape->Draw(pDC);
+
+				pDC->SelectObject(&pOldPen);
+
+				m_LastPoint.x = -1;
+
+				//delete m_CurrentShape;
+				m_CurrentShape = NULL;
 			}
-		}
-		else */if (m_CurrentShapeType != SHAPETYPE_SELECTOR && m_CurrentShapeType != SHAPETYPE_LINETO && m_CurrentShapeType != SHAPETYPE_POLYGON)
-		{
-
-			CPen* pOldPen = pDC->SelectObject(&m_TemporaryPen);
-
-			pDC->SetROP2(R2_NOTXORPEN);
-		
-			if (m_LastPoint.x != -1)
-			{
-				m_CurrentShape->SetEndPoint(m_LastPoint);
-				m_CurrentShape->Draw(pDC);
-			}
-
-			m_CurrentShape->SetEndPoint(point);
-			m_CurrentShape->Draw(pDC);
-
-			pDC->SelectObject(pOldPen);
-			
-			m_LastPoint = point;
 		}
 		ReleaseDC(pDC);
 	}
