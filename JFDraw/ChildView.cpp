@@ -251,8 +251,15 @@ void CChildView::OnLButtonUp(UINT nFlags, CPoint point)
 
 			m_CurrentShape->Draw(pDC);
 
-			pDC->SelectObject(oldPen);
+			CRect rect = m_CurrentShape->GetRect();
+			rect.top += (rect.Height() / 2) - 10;
 
+			string text = m_CurrentShape->GetText();
+			CString cs(text.c_str());
+
+			pDC->DrawText(cs, rect, DT_CENTER);
+
+			pDC->SelectObject(oldPen);
 		}
 
 		ReleaseDC(pDC);
@@ -301,6 +308,14 @@ void CChildView::RedrawShapes()
 			CPen* oldPen = pDC->SelectObject(&pen);
 
 			i->Draw(pDC);
+
+			CRect rect = i->GetRect();
+			rect.top += (rect.Height() / 2) - 10;
+
+			string text = i->GetText();
+			CString cs(text.c_str());
+
+			pDC->DrawText(cs, rect, DT_CENTER);
 
 			pDC->SelectObject(oldPen);
 		}
@@ -468,7 +483,7 @@ void CChildView::OnFileOpen()
 					segs.push_back(seg);
 				}
 
-				if (segs.size() != 6)
+				if (segs.size() != 7)
 				{
 					continue;
 				}
@@ -476,6 +491,7 @@ void CChildView::OnFileOpen()
 				CPoint startp(stoi(segs[1]), stoi(segs[2]));
 				CPoint endp(stoi(segs[3]), stoi(segs[4]));
 				int penWidth = stoi(segs[5]);
+				string text = segs[6];
 
 				Fraint::Shape* shape;
 
@@ -501,6 +517,8 @@ void CChildView::OnFileOpen()
 				}
 
 				shape->SetPenWidth(penWidth);
+				shape->SetText(text);
+
 				m_Shapes.push_back(shape);
 			}
 		}

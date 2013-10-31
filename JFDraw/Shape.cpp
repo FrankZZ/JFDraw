@@ -54,12 +54,23 @@ namespace Fraint
 		return m_PenWidth;
 	}
 
+	string Shape::GetText()
+	{
+		return m_Text;
+	}
+
+	void Shape::SetText(string text)
+	{
+		m_Text = text;
+	}
+
 	string Shape::ToString()
 	{
 		return m_Name + ","
 			+ ltos(m_StartPoint.x) + "," + ltos(m_StartPoint.y) 
 			+ "," + ltos(m_EndPoint.x) + "," + ltos(m_EndPoint.y) 
 			+ "," + ltos(m_PenWidth)
+			+ "," + m_Text
 		+ "\n";
 	}
 };
