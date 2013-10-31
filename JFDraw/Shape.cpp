@@ -64,6 +64,17 @@ namespace Fraint
 		m_Text = text;
 	}
 
+	void Shape::AddChar(int nChar)
+	{
+		if (nChar == 8)
+		{
+			m_Text = m_Text.substr(0, m_Text.length()-1);
+		}
+		else
+			m_Text += nChar;
+
+	}
+
 	string Shape::ToString()
 	{
 		return m_Name + ","

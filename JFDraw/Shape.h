@@ -24,7 +24,7 @@ namespace Fraint
 			CRect m_Rect;
 			CPen m_Pen;
 			string m_Name;
-			string m_Text = ".";
+			string m_Text = " ";
 
 		private:
 			int m_PenWidth;
@@ -41,5 +41,6 @@ namespace Fraint
 			int GetPenWidth();
 			string GetText();
 			void SetText(string text);
+			void AddChar(int nChar);
 	};
 };

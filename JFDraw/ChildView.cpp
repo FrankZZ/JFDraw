@@ -60,12 +60,20 @@ CChildView::CChildView()
 	m_TemporaryPen(PS_DOT, 1, RGB(0, 0, 0)),
 	m_Shapes(),
 	m_CurrentShapeType(SHAPETYPE_CIRCLE),
-	m_CurrentShape(NULL)
+	m_CurrentShape(NULL),
+	m_bMouseLeft(FALSE)
 {
 }
 
 CChildView::~CChildView()
 {
+	
+
+	for each (auto var in m_Shapes)
+	{
+		delete var;
+	}
+
 }
 
 BEGIN_MESSAGE_MAP(CChildView, CWnd)
@@ -98,7 +106,8 @@ BEGIN_MESSAGE_MAP(CChildView, CWnd)
 	ON_UPDATE_COMMAND_UI(ID_SHAPE_P, &CChildView::OnUpdateShapePolygon)
 	ON_COMMAND(ID_SHAPE_LINETO, &CChildView::OnShapeLineto)
 	ON_UPDATE_COMMAND_UI(ID_SHAPE_LINETO, &CChildView::OnUpdateShapeLineto)
-	ON_COMMAND(ID_UNDO, &CChildView::OnEditDelete)
+	ON_COMMAND(ID_UNDO, &CChildView::OnEditUndo)
+	ON_WM_CHAR()
 END_MESSAGE_MAP()
 
 // CChildView message handlers
@@ -119,16 +128,30 @@ BOOL CChildView::PreCreateWindow(CREATESTRUCT& cs)
 void CChildView::OnPaint() 
 {
 	CPaintDC dc(this); // device context for painting
+
+	this->RedrawShapes();
 	
 	// TODO: Add your message handler code here
 	
 	// Do not call CWnd::OnPaint() for painting messages
 }
 
+void CChildView::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
+{
+	if (m_CurrentShape)
+	{
+		m_CurrentShape->AddChar(nChar);
+
+		CWnd::InvalidateRect(m_CurrentShape->GetRect());
+	}
+
+
+}
+
 void CChildView::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	m_StartPoint = point;
-	
+
 	//m_CurrentShape = new Rectangle1(m_StartPoint);
 	if (m_CurrentShapeType == SHAPETYPE_CIRCLE)
 	{
@@ -161,44 +184,60 @@ void CChildView::OnMouseMove(UINT nFlags, CPoint point)
 	if (m_StartPoint.x != -1)
 	{
 		CDC* pDC = GetDC();
-		/*CRect rect;
 		
-		GetWindowRect(rect);
+		CRect cRect;
+		GetClientRect(&cRect);
 
-		if (!rect.PtInRect(point))
+		if (point.x > cRect.left+5 && point.x < cRect.right-5 && point.y > cRect.top+5 && point.y < cRect.bottom-5)
 		{
-		// Muis is buiten window
-			m_StartPoint.x = -1;
-		
-			
-		
-			if (m_CurrentShape != NULL && m_LastPoint.x != -1)
+			if (m_bMouseLeft == TRUE)
 			{
-				pDC->SetROP2(R2_NOTXORPEN);
-				m_CurrentShape->SetEndPoint(m_LastPoint);
-				m_CurrentShape->Draw(pDC);
+				m_bMouseLeft = FALSE;
 			}
-		}
-		else */if (m_CurrentShapeType != SHAPETYPE_SELECTOR && m_CurrentShapeType != SHAPETYPE_LINETO && m_CurrentShapeType != SHAPETYPE_POLYGON)
+
+			if (m_CurrentShapeType != SHAPETYPE_SELECTOR && m_CurrentShapeType != SHAPETYPE_LINETO && m_CurrentShapeType != SHAPETYPE_POLYGON)
+			{
+
+				CPen* pOldPen = pDC->SelectObject(&m_TemporaryPen);
+
+				pDC->SetROP2(R2_NOTXORPEN);
+
+				if (m_LastPoint.x != -1)
+				{
+					m_CurrentShape->SetEndPoint(m_LastPoint);
+					m_CurrentShape->Draw(pDC);
+				}
+
+				m_CurrentShape->SetEndPoint(point);
+				m_CurrentShape->Draw(pDC);
+
+				pDC->SelectObject(pOldPen);
+
+				m_LastPoint = point;
+			}
+		} 
+		else
 		{
+			m_bMouseLeft = TRUE;
 
 			CPen* pOldPen = pDC->SelectObject(&m_TemporaryPen);
 
 			pDC->SetROP2(R2_NOTXORPEN);
-		
+
 			if (m_LastPoint.x != -1)
 			{
 				m_CurrentShape->SetEndPoint(m_LastPoint);
 				m_CurrentShape->Draw(pDC);
 			}
 
-			m_CurrentShape->SetEndPoint(point);
-			m_CurrentShape->Draw(pDC);
-
-			pDC->SelectObject(pOldPen);
+			delete m_CurrentShape;
 			
-			m_LastPoint = point;
+			pDC->SelectObject(pOldPen);
+
+			m_LastPoint.x = -1;
+			m_StartPoint.x = -1;
 		}
+
 		ReleaseDC(pDC);
 	}
 
@@ -207,6 +246,9 @@ void CChildView::OnMouseMove(UINT nFlags, CPoint point)
 
 void CChildView::OnLButtonUp(UINT nFlags, CPoint point)
 {
+	if (m_bMouseLeft == TRUE)
+		return;
+
 	if (m_CurrentShapeType == SHAPETYPE_SELECTOR)
 	{
 		for(auto i = m_Shapes.rbegin(); i != m_Shapes.rend(); ++i)
@@ -266,6 +308,9 @@ void CChildView::OnLButtonUp(UINT nFlags, CPoint point)
 		ReleaseDC(pDC);
 
 		m_Shapes.push_back(m_CurrentShape);
+
+		//if (m_CurrentShape)
+		//	delete m_CurrentShape;
 	}
 
 	m_StartPoint.x = -1;
@@ -278,7 +323,10 @@ void CChildView::OnEditUndo()
 {
 	if (m_Shapes.empty() == false)
 	{
-		//CWnd::InvalidateRect(m_Shapes.back()->GetRect());
+		CWnd::InvalidateRect(m_Shapes.back()->GetRect());
+
+		delete m_Shapes.back();
+
 
 		m_Shapes.pop_back();
 		
@@ -289,14 +337,14 @@ void CChildView::OnEditUndo()
 // Wachten tot de Window geupdate is (invalidated rectangles erased) en dan de huidige shapes redrawen
 void CChildView::RedrawShapes()
 {
-	CRect rect(NULL);
+	//CRect rect(NULL);
 
-	GetClientRect(&rect);
+	//GetClientRect(&rect);
 
-	CWnd::InvalidateRect(rect);
+	//CWnd::InvalidateRect(rect);
 
 	CWnd::UpdateWindow();
-	
+
 	if (m_Shapes.empty() == false)
 	{
 		for (auto i : m_Shapes)

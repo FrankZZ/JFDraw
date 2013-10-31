@@ -19,6 +19,7 @@ public:
 private:
 	CPoint m_StartPoint;
 	CPoint m_LastPoint;
+	bool m_bMouseLeft;
 	
 	Fraint::Shape* m_CurrentShape;
 
@@ -36,6 +37,7 @@ public:
 // Overrides
 	protected:
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
+	
 
 // Implementation
 public:
@@ -48,6 +50,7 @@ private:
 	// Generated message map functions
 protected:
 	afx_msg void OnPaint();
+	afx_msg void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
