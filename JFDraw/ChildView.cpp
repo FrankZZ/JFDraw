@@ -194,9 +194,12 @@ void CChildView::OnLButtonUp(UINT nFlags, CPoint point)
 			CPen pen;
 			pen.CreatePen(PS_SOLID, m_CurrentShape->GetPenWidth(), RGB(0, 0, 0));
 
-			pDC->SelectObject(pen);
+			CPen* oldPen = pDC->SelectObject(&pen);
 
 			m_CurrentShape->Draw(pDC);
+
+			pDC->SelectObject(oldPen);
+
 		}
 
 		ReleaseDC(pDC);
@@ -231,7 +234,16 @@ void CChildView::RedrawShapes()
 	{
 		for (auto i : m_Shapes)
 		{
-			i->Draw(GetDC());
+			CPen pen;
+			pen.CreatePen(PS_SOLID, i->GetPenWidth(), RGB(0, 0, 0));
+			
+			CDC* pDC = GetDC();
+
+			CPen* oldPen = pDC->SelectObject(&pen);
+
+			i->Draw(pDC);
+
+			pDC->SelectObject(oldPen);
 		}
 	}
 }
@@ -384,27 +396,33 @@ void CChildView::OnFileOpen()
 
 				CPoint startp(stoi(segs[1]), stoi(segs[2]));
 				CPoint endp(stoi(segs[3]), stoi(segs[4]));
+				int penWidth = stoi(segs[5]);
+
+				Fraint::Shape* shape;
 
 				if (segs[0] == "Circle")
 				{
-					m_Shapes.push_back(new Fraint::Circle(startp, endp));
+					shape = new Fraint::Circle(startp, endp);
 				}
 				else if (segs[0] == "Rectangle")
 				{
-					m_Shapes.push_back(new Fraint::Rectangle(startp, endp));
+					shape = new Fraint::Rectangle(startp, endp);
 				}
 				else if (segs[0] == "Ellipse")
 				{
-					m_Shapes.push_back(new Fraint::Ellipse(startp, endp));
+					shape = new Fraint::Ellipse(startp, endp);
 				}
 				else if (segs[0] == "Square")
 				{
-					m_Shapes.push_back(new Fraint::Square(startp, endp));
+					shape = new Fraint::Square(startp, endp);
 				}
 				else
 				{
 					continue;
 				}
+
+				shape->SetPenWidth(penWidth);
+				m_Shapes.push_back(shape);
 			}
 		}
  
