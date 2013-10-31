@@ -43,6 +43,9 @@
 #define SHAPETYPE_ELLIPSE 4
 #endif
 
+#ifndef SHAPETYPE_POLYGON
+#define SHAPETYPE_POLYGON 5
+#endif
 
 // CChildView
 
@@ -86,6 +89,8 @@ BEGIN_MESSAGE_MAP(CChildView, CWnd)
 	ON_UPDATE_COMMAND_UI(ID_SHAPE_SELECTORTOOL, &CChildView::OnUpdateShapeSelectorTool)
 	ON_UPDATE_COMMAND_UI(ID_SHAPE_SQUARE, &CChildView::OnUpdateShapeSquare)
 	ON_UPDATE_COMMAND_UI(ID_SHAPE_ELLIPSE, &CChildView::OnUpdateShapeEllipse)
+	ON_COMMAND(ID_SHAPE_P, &CChildView::OnShapePolygon)
+	ON_UPDATE_COMMAND_UI(ID_SHAPE_P, &CChildView::OnUpdateShapePolygon)
 END_MESSAGE_MAP()
 
 // CChildView message handlers
@@ -296,6 +301,11 @@ void CChildView::OnShapeEllipse()
 	m_CurrentShapeType = SHAPETYPE_ELLIPSE;
 }
 
+void CChildView::OnShapePolygon()
+{
+	m_CurrentShapeType = SHAPETYPE_POLYGON;
+}
+
 void CChildView::OnUpdateShapeRectangle(CCmdUI *pCmdUI)
 {
 	pCmdUI->SetCheck(m_CurrentShapeType == SHAPETYPE_RECTANGLE);
@@ -319,6 +329,11 @@ void CChildView::OnUpdateShapeSquare(CCmdUI *pCmdUI)
 void CChildView::OnUpdateShapeEllipse(CCmdUI *pCmdUI)
 {
 	pCmdUI->SetCheck(m_CurrentShapeType == SHAPETYPE_ELLIPSE);
+}
+
+void CChildView::OnUpdateShapePolygon(CCmdUI *pCmdUI)
+{
+	pCmdUI->SetCheck(m_CurrentShapeType == SHAPETYPE_POLYGON);
 }
 
 void CChildView::OnBorderSize1()

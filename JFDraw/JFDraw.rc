@@ -126,6 +126,7 @@ BEGIN
         MENUITEM "Selector Tool",               ID_SHAPE_SELECTORTOOL
         MENUITEM "Square",                      ID_SHAPE_SQUARE
         MENUITEM "Ellipse",                     ID_SHAPE_ELLIPSE
+        MENUITEM "&Polygon",                    ID_SHAPE_P
         MENUITEM SEPARATOR
         POPUP "Border Size"
         BEGIN
