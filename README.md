@@ -1,6 +1,4 @@
 JFDraw
 ======
 
-FrankZZ Paint
-
-Paint application made in C++
+Paint application made in C++ to practise a little
